@@ -1,5 +1,4 @@
-# ipip
-automation script
+# automation script
 
 Operating environment : python 3.7.9
 
