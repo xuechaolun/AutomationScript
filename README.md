@@ -1,5 +1,5 @@
 # automation script
 
-Operating environment : python 3.7.9
+Operating Environment : python 3.7.9
 
-Dependency library : requests==2.27.1
+Dependency Library : requests==2.27.1
