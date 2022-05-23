@@ -26,7 +26,7 @@ TOTAL = 0
 INSERT_COUNT = 0
 FAILURE_COUNT = 0
 
-ydata01 = 0
+mydata01 = 0
 mydata02 = 536870912
 mydata03 = 1073741824
 mydata04 = 1342177280
