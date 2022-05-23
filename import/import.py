@@ -26,11 +26,12 @@ FAILURE_COUNT = 0
 mydata01 = 0
 mydata02 = 536870912
 mydata03 = 1073741824
-mydata04 = 1610612736
-mydata05 = 2147483648
-mydata06 = 2684354560
-mydata07 = 3221225472
-mydata08 = 3758096384
+mydata04 = 1342177280
+mydata05 = 1610612736
+mydata06 = 2147483648
+mydata07 = 2684354560
+mydata08 = 3221225472
+mydata09 = 3758096384
 
 insert_data_dict = dict()
 
@@ -82,8 +83,10 @@ with open('updown2.txt', 'r', encoding='utf-8') as f_data:
                 path1 = MYDATA_PATH + 'mydata06.txt'
             elif ip_long_start < mydata08:
                 path1 = MYDATA_PATH + 'mydata07.txt'
-            else:
+            elif ip_long_start < mydata09:
                 path1 = MYDATA_PATH + 'mydata08.txt'
+            else:
+                path1 = MYDATA_PATH + 'mydata09.txt'
             with open(path1, 'r', encoding='utf-8') as f2:
                 flag = 0
                 for d2 in f2:
