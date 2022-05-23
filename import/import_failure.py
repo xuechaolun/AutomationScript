@@ -26,18 +26,18 @@ TOTAL = 0
 INSERT_COUNT = 0
 FAILURE_COUNT = 0
 
-mydata01 = 0
+ydata01 = 0
 mydata02 = 536870912
 mydata03 = 1073741824
-mydata04 = 1610612736
-mydata05 = 2147483648
-mydata06 = 2684354560
-mydata07 = 3221225472
-mydata08 = 3758096384
+mydata04 = 1342177280
+mydata05 = 1610612736
+mydata06 = 2147483648
+mydata07 = 2684354560
+mydata08 = 3221225472
+mydata09 = 3758096384
 
 insert_data_dict = dict()
 
-start_time = time.time()
 
 with open('failure.txt', 'r', encoding='utf-8') as fr:
     with open('failure_line.txt', 'w', encoding='utf-8') as fw:
@@ -49,6 +49,8 @@ with open('failure.txt', 'r', encoding='utf-8') as fr:
                 fw.write(frd)
 
 time.sleep(3)
+
+start_time = time.time()
 
 with open('failure_line.txt', 'r', encoding='utf-8') as f_data:
     for ip_list in f_data:
@@ -69,8 +71,10 @@ with open('failure_line.txt', 'r', encoding='utf-8') as f_data:
             path1 = MYDATA_PATH + 'mydata06.txt'
         elif ip_long_start < mydata08:
             path1 = MYDATA_PATH + 'mydata07.txt'
-        else:
+        elif ip_long_start < mydata09:
             path1 = MYDATA_PATH + 'mydata08.txt'
+        else:
+            path1 = MYDATA_PATH + 'mydata09.txt'
         with open(path1, 'r', encoding='utf-8') as f2:
             for d2 in f2:
                 if ';' in d2:
