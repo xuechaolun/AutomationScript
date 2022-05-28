@@ -3,7 +3,7 @@ import re
 import time
 
 
-class MergeSameLines(object):
+class MergeSameLines:
     def __init__(self):
         self.R_FILE = "C:/TianTexin/framework/library/ip/mydata.edit.txt"
         self.W_FILE = "C:/TianTexin/framework/library/ip/mydata.edit.temp.txt"
@@ -63,10 +63,13 @@ class MergeSameLines(object):
         os.remove(self.R_FILE)
         os.rename(self.W_FILE, self.R_FILE)
 
-    def merge_isp_same_lines(self, col, isp):
+    def merge_isp_same_lines(self, col, isp, *country):
         d1 = self.fr.readline()
         while d1:
-            if d1[0] == ';' or d1 == '\n' or d1.split('\t')[2+col-1] != isp:
+            if d1[0] == ';' or d1 == '\n' or d1.split('\t')[2 + col - 1] != isp:
+                d1 = MergeSameLines.c(self.fw, self.fr, d1)
+                continue
+            if 'all' not in country and d1.split('\t')[2] not in country:
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 continue
             if d1[:11] == ';##BACKBONE':
@@ -75,7 +78,8 @@ class MergeSameLines(object):
                 while end_ip not in d1:
                     d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
-            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[:8] == ';##CDN##':
+            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[
+                                                                                                      :8] == ';##CDN##':
                 end_ip = MergeSameLines.b(d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 s = time.time()
@@ -85,8 +89,6 @@ class MergeSameLines(object):
                     if e - s > 0.1:
                         print(end_ip)
                         break
-                d1 = MergeSameLines.c(self.fw, self.fr, d1)
-            elif d1[0] == ';' or d1 == '\n':
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
             else:
                 d1 = MergeSameLines.d(self.fw, self.fr, d1)
@@ -100,7 +102,8 @@ class MergeSameLines(object):
                 while end_ip not in d1:
                     d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
-            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[:8] == ';##CDN##':
+            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[
+                                                                                                      :8] == ';##CDN##':
                 end_ip = MergeSameLines.b(d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 s = time.time()
@@ -125,7 +128,8 @@ class MergeSameLines(object):
 if __name__ == '__main__':
     start = time.time()
     print('合并中...')
-    # MergeSameLines().merge_isp_same_lines(5, 'telefonica.com')
-    MergeSameLines().merge_all_same_lines()
+    MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', '巴西', '法国')  # 合并第5列telefonica.com所在的巴西和法国
+    # MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', 'all')  # 合并第5列telefonica.com所在的全部国家
+    # MergeSameLines().merge_all_same_lines()  # 合并全部的
     end = time.time()
     print(f'用时{end - start:.2f}s')
