@@ -9,12 +9,19 @@ MYDATA_PATH = 'C:\\TianTexin\\framework\\library\\ip\\'
 
 # 这里输入要导入的地理位置
 # COUNTRY = '巴西'
-# STATE = '里约热内卢州'
-# CITY = '里约热内卢'
+# STATE = '圣保罗州'
+# CITY = '*'
+# CIDR = '24'
 
-COUNTRY = input("输入国家：")
-STATE = input("输入州（没有就输入国家名）：")
-CITY = input("输入城市（没有就输入“*”）：")
+COUNTRY = input("输入国家：").strip()
+STATE = input("输入州（没有就输入国家名）：").strip()
+CITY = input("输入城市（没有就输入“*”）：").strip()
+CIDR = input("输入CIDR（默认24）：").strip()
+if len(COUNTRY) == 0 or len(STATE) == 0 or len(CITY) == 0:
+    print('\n国家|州|城市 无效')
+    exit(1)
+if CIDR == '':
+    CIDR = '24'
 print()
 print("正在导入...")
 
@@ -40,13 +47,19 @@ start_time = time.time()
 with open('data.txt', 'r', encoding='utf-8') as fr:
     pattern = r'(((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3})'
     data = sorted(
-        ['.'.join([f'{int(j):0>3d}' for j in i[0].split('.')]) for i in re.findall(pattern, fr.read().strip())])
+        set(['.'.join([f'{int(j):0>3d}' for j in i[0].split('.')]) for i in re.findall(pattern, fr.read().strip())]))
     with open('updown1.txt', 'w', encoding='utf-8') as f1:
         for d in data:
-            d = d.split('\n')[0]
-            f1.write(str(long2ip(ip2long(d)) + '\t' + long2ip(ip2long(d) + 255) + '\n'))
+            first_ip = ip2long(d) & (-1 << (32 - int(CIDR)))
+            end_ip = first_ip + 2 ** (32 - int(CIDR)) - 1
+            f1.write(long2ip(first_ip) + '\t' + long2ip(end_ip) + '\n')  # cidr
 
 with open('updown1.txt', 'r', encoding='utf-8') as f:
+    with open('updown1-1.txt', 'w', encoding='utf-8') as f1:
+        for d in sorted(set(f.readlines())):
+            f1.write(d)
+
+with open('updown1-1.txt', 'r', encoding='utf-8') as f:
     with open('updown2.txt', 'w', encoding='utf-8') as f1:
         d = f.readline()
         while d:
@@ -126,7 +139,7 @@ with open('updown2.txt', 'r', encoding='utf-8') as f_data:
                         break
                     elif ip_start > ip_long_start and ip_end == ip_long_end:
                         fww.write(
-                            long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。\n\n')
+                            long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。1\n\n')
                         ERROR_COUNT += 1
                         flag += 1
                         break
@@ -138,11 +151,12 @@ with open('updown2.txt', 'r', encoding='utf-8') as f_data:
                         break
                 if flag == 0:
                     fww.write(
-                        long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。\n\n')
+                        long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。2\n\n')
                     ERROR_COUNT += 1
 
 os.remove('updown1.txt')
 os.remove('updown2.txt')
+os.remove('updown1-1.txt')
 
 if len(insert_data_dict) == 0:
     end_time = time.time()
