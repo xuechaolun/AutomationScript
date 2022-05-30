@@ -46,13 +46,12 @@ start_time = time.time()
 
 with open('data.txt', 'r', encoding='utf-8') as fr:
     pattern = r'(((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3})'
-    data = sorted(
-        set(['.'.join([f'{int(j):0>3d}' for j in i[0].split('.')]) for i in re.findall(pattern, fr.read().strip())]))
+    data = sorted(set(['.'.join([f'{int(j):0>3d}' for j in i[0].split('.')]) for i in re.findall(pattern, fr.read().strip())]))
     with open('updown1.txt', 'w', encoding='utf-8') as f1:
         for d in data:
             first_ip = ip2long(d) & (-1 << (32 - int(CIDR)))
-            end_ip = first_ip + 2 ** (32 - int(CIDR)) - 1
-            f1.write(long2ip(first_ip) + '\t' + long2ip(end_ip) + '\n')  # cidr
+            last_ip = first_ip + 2 ** (32 - int(CIDR)) - 1
+            f1.write(long2ip(first_ip) + '\t' + long2ip(last_ip) + '\n')  # cidr
 
 with open('updown1.txt', 'r', encoding='utf-8') as f:
     with open('updown1-1.txt', 'w', encoding='utf-8') as f1:
@@ -110,8 +109,7 @@ with open('updown2.txt', 'r', encoding='utf-8') as f_data:
                     d2 = d2.split('\t')
                     ip_start = ip2long(d2[0])
                     ip_end = ip2long(d2[1])
-                    ss = '\t' + COUNTRY + '\t' + STATE + '\t' + CITY + '\t' + d2[5] + '\t' + d2[6] + '\t' + d2[
-                        7] + '\t' + d2[8]
+                    ss = '\t' + COUNTRY + '\t' + STATE + '\t' + CITY + '\t' + d2[5] + '\t' + d2[6] + '\t' + d2[7] + '\t' + d2[8]
                     sr = '\t'.join(d2[2:])
                     if ip_start == ip_long_start and ip_end == ip_long_end:
                         d3 = long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + ss
@@ -138,20 +136,17 @@ with open('updown2.txt', 'r', encoding='utf-8') as f_data:
                         flag += 1
                         break
                     elif ip_start > ip_long_start and ip_end == ip_long_end:
-                        fww.write(
-                            long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。1\n\n')
+                        fww.write(long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。1\n\n')
                         ERROR_COUNT += 1
                         flag += 1
                         break
                     elif ip_start == ip_long_start and ip_end < ip_long_end:
-                        fww.write(long2ip(ip_long_start) + '\t' + long2ip(
-                            ip_long_end) + '    <-    这个IP段被拆开标了，需要手动处理。\n\n')
+                        fww.write(long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段被拆开标了，需要手动处理。\n\n')
                         ERROR_COUNT += 1
                         flag += 1
                         break
                 if flag == 0:
-                    fww.write(
-                        long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。2\n\n')
+                    fww.write(long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + '    <-    这个IP段很奇怪，需要手动处理。2\n\n')
                     ERROR_COUNT += 1
 
 os.remove('updown1.txt')
