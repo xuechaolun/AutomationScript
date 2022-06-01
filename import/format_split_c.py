@@ -44,9 +44,8 @@ with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt', 'r', encodin
                     fw1.write(left + '\t' + right_ip + '\t' + ss)
             else:
                 fw1.write(d)
-                print('error')
+                print('Accident')
                 print(d)
 
 os.remove('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt')
-os.rename('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.temp.txt',
-          'C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt')
+os.rename('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.temp.txt','C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt')
