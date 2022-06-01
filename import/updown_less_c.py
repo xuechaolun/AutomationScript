@@ -45,7 +45,5 @@ class UpDownLessC:
 
 if __name__ == '__main__':
     # 参数1：路由
-    rou = input('路由：')
     # 参数2：需要保存ip的地理位置
-    loc = input('位置：')
-    UpDownLessC(rou, loc).run()
+    UpDownLessC('8.242.29.94', '巴西/巴拉那州/*').run()
