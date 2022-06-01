@@ -13,7 +13,6 @@ class MergeSameLines:
     ip2long = lambda x: sum([256 ** j * int(i) for j, i in enumerate(x.split('.')[::-1])])
     long2ip = lambda x: '.'.join(['{:0>3d}'.format(x // (256 ** i) % 256) for i in range(3, -1, -1)])
 
-    # 判断相邻上下两行是否是同一个C段或B段
     @staticmethod
     def a(f, s):
         f_list = f.split('.')
@@ -24,7 +23,6 @@ class MergeSameLines:
             flag = 2
         return True if f_list[:flag] == s_list[:flag] else False
 
-    # 返回xxx.xxx.xxx.xxx/xx段的最后一个ip
     @staticmethod
     def b(f):
         ip_cidr = re.findall(r';##\w+##(.*?/\d+)', f)[0]
@@ -34,14 +32,12 @@ class MergeSameLines:
         end_ip = start_ip + 2 ** (32 - int(cidr)) - 1
         return MergeSameLines.long2ip(end_ip)
 
-    # 写入当前行，读取下一行并返回
     @staticmethod
     def c(fw, fr, s):
         fw.write(s)
         s = fr.readline()
         return s
 
-    # 合并符合规则的上下两行
     @staticmethod
     def d(fw, fr, d1):
         d2 = fr.readline()
@@ -78,8 +74,7 @@ class MergeSameLines:
                 while end_ip not in d1:
                     d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
-            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[
-                                                                                                      :8] == ';##CDN##':
+            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[:8] == ';##CDN##':
                 end_ip = MergeSameLines.b(d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 s = time.time()
@@ -102,8 +97,7 @@ class MergeSameLines:
                 while end_ip not in d1:
                     d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
-            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[
-                                                                                                      :8] == ';##CDN##':
+            elif d1[:8] == ';##DFN##' or d1[:13] == ';##REDIRECT##' or d1[:14] == ';##SATELLITE##' or d1[:8] == ';##CDN##':
                 end_ip = MergeSameLines.b(d1)
                 d1 = MergeSameLines.c(self.fw, self.fr, d1)
                 s = time.time()
@@ -128,8 +122,8 @@ class MergeSameLines:
 if __name__ == '__main__':
     start = time.time()
     print('合并中...')
-    MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', '巴西', '法国')  # 合并第5列telefonica.com所在的巴西和法国
-    # MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', 'all')  # 合并第5列telefonica.com所在的全部国家
-    # MergeSameLines().merge_all_same_lines()  # 合并全部的
+    MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', '巴西', '法国')  # 合并第5列telefonica.com所在的巴西和法国的符合规则的行
+    # MergeSameLines().merge_isp_same_lines(5, 'telefonica.com', 'all')  # 合并第5列telefonica.com所在的全部国家的符合规则的行
+    # MergeSameLines().merge_all_same_lines()  # 合并全部符合规则的行
     end = time.time()
     print(f'用时{end - start:.2f}s')
