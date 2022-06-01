@@ -1,5 +1,7 @@
 import os
 
+COUNT = 0
+
 with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt', 'r', encoding='utf-8') as fr1:
     with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.temp.txt', 'w', encoding='utf-8') as fw1:
         for d in fr1:
@@ -18,18 +20,20 @@ with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt', 'r', encodin
                 if left_ip_list[2] == right_ip_list[2]:
                     fw1.write(d)
                 else:
+                    COUNT += 1
                     right = '.'.join([left_ip_list[0], left_ip_list[1], left_ip_list[2], '255'])
                     fw1.write(left_ip + '\t' + right + '\t' + ss)
-                    if int(right_ip_list[2])-int(left_ip_list[2]) > 1:
-                        mid_l = '.'.join([left_ip_list[0], left_ip_list[1], str(int(left_ip_list[2])+1), '000'])
-                        mid_r = '.'.join([right_ip_list[0], right_ip_list[1], str(int(right_ip_list[2])-1), '255'])
-                        fw1.write(mid_l+'\t'+mid_r+'\t'+ss)
+                    if int(right_ip_list[2]) - int(left_ip_list[2]) > 1:
+                        mid_l = '.'.join([left_ip_list[0], left_ip_list[1], str(int(left_ip_list[2]) + 1), '000'])
+                        mid_r = '.'.join([right_ip_list[0], right_ip_list[1], str(int(right_ip_list[2]) - 1), '255'])
+                        fw1.write(mid_l + '\t' + mid_r + '\t' + ss)
                     left = '.'.join([right_ip_list[0], right_ip_list[1], right_ip_list[2], '000'])
                     fw1.write(left + '\t' + right_ip + '\t' + ss)
             elif left_ip_list[3] == '000' and right_ip_list[3] != '255':
                 if left_ip_list[2] == right_ip_list[2]:
                     fw1.write(d)
                 else:
+                    COUNT += 1
                     right = '.'.join([right_ip_list[0], right_ip_list[1], str(int(right_ip_list[2]) - 1), '255'])
                     fw1.write(left_ip + '\t' + right + '\t' + ss)
                     left = '.'.join([right_ip_list[0], right_ip_list[1], right_ip_list[2], '000'])
@@ -38,6 +42,7 @@ with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt', 'r', encodin
                 if left_ip_list[2] == right_ip_list[2]:
                     fw1.write(d)
                 else:
+                    COUNT += 1
                     right = '.'.join([left_ip_list[0], left_ip_list[1], left_ip_list[2], '255'])
                     fw1.write(left_ip + '\t' + right + '\t' + ss)
                     left = '.'.join([left_ip_list[0], left_ip_list[1], str(int(left_ip_list[2]) + 1), '000'])
@@ -49,3 +54,4 @@ with open('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt', 'r', encodin
 
 os.remove('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt')
 os.rename('C:\\TianTexin\\framework\\library\\ip\\mydata.edit.temp.txt','C:\\TianTexin\\framework\\library\\ip\\mydata.edit.txt')
+print(f'格式化 {COUNT} 条')
