@@ -84,8 +84,7 @@ with open('failure_line.txt', 'r', encoding='utf-8') as f_data:
                 d2 = d2.split('\t')
                 ip_start = ip2long(d2[0])
                 ip_end = ip2long(d2[1])
-                ss = '\t' + COUNTRY + '\t' + STATE + '\t' + CITY + '\t' + d2[5] + '\t' + d2[6] + '\t' + d2[
-                    7] + '\t' + d2[8]
+                ss = '\t' + COUNTRY + '\t' + STATE + '\t' + CITY + '\t' + d2[5] + '\t' + d2[6] + '\t' + d2[7] + '\t' + d2[8]
                 sr = '\t'.join(d2[2:])
                 if ip_start == ip_long_start and ip_end == ip_long_end:
                     d3 = long2ip(ip_long_start) + '\t' + long2ip(ip_long_end) + ss
@@ -123,6 +122,7 @@ with open('failure1.txt', 'w', encoding='utf-8') as fww:
 
 insert_data_dict1 = {insert_data[1]: insert_data[0] for insert_data in insert_data_list}
 insert_data_list1 = sorted(insert_data_dict1.items(), key=lambda x: x[0])
+
 with open(MYDATA_PATH + 'mydata.edit.txt', 'r', encoding='utf-8') as fr1:
     with open(MYDATA_PATH + 'mydata.edit.temp.txt', 'w', encoding='utf-8') as fw1:
         index = 0
