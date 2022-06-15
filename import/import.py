@@ -160,7 +160,14 @@ if len(insert_data_dict) == 0:
     print(f'失败{FAILURE_COUNT}条')
     print(f'异常{ERROR_COUNT}条')
     print(f'\n用时{end_time - start_time:.2f}s\n')
-    print(f'error.txt 文本中的异常IP段需要手动修改\n')
+    if ERROR_COUNT != 0:
+        print(f'error.txt 文本中异常的IP段需要手动修改\n')
+    elif os.path.exists('error.txt'):
+        os.remove('error.txt')
+    if FAILURE_COUNT != 0:
+        print(f'failure.txt 文本中导入失败的IP段需要再次执行 import_failure 脚本')
+    elif os.path.exists('failure.txt'):
+        os.remove('failure.txt')
     exit(1)
 
 insert_data_list = sorted(insert_data_dict.items(), key=lambda x: x[1])
@@ -207,5 +214,12 @@ print(f'异常{ERROR_COUNT}条')
 print(f'\n用时{end_time - start_time:.2f}s\n')
 if ERROR_COUNT != 0:
     print(f'error.txt 文本中异常的IP段需要手动修改\n')
+elif os.path.exists('error.txt'):
+    os.remove('error.txt')
 if FAILURE_COUNT != 0:
     print(f'failure.txt 文本中导入失败的IP段需要再次执行 import_failure 脚本')
+else:
+    if os.path.exists('failure.txt'):
+        os.remove('failure.txt')
+    if os.path.exists('failure_line.txt'):
+        os.remove('failure_line.txt')
