@@ -153,3 +153,8 @@ print(f'失败{FAILURE_COUNT}条')
 print(f'\n用时{end_time - start_time:.2f}s\n')
 if FAILURE_COUNT != 0:
     print(f'failure.txt 文本中导入失败的IP段需要再次执行 import_failure 脚本')
+else:
+    if os.path.exists('failure.txt'):
+        os.remove('failure.txt')
+    if os.path.exists('failure_line.txt'):
+        os.remove('failure_line.txt')
