@@ -16,9 +16,9 @@ with open('failure.txt', 'r', encoding='utf-8') as fr:
 # STATE = '里约热内卢州'
 # CITY = '里约热内卢'
 
-COUNTRY = input("输入国家：")
-STATE = input("输入州（没有就输入国家名）：")
-CITY = input("输入城市（没有就输入“*”）：")
+COUNTRY = input("输入国家：").strip()
+STATE = input("输入州（没有就输入国家名）：").strip()
+CITY = input("输入城市（没有就输入“*”）：").strip()
 print()
 print("正在导入...")
 
