@@ -1,4 +1,3 @@
-# ip = '.'.join(input('输入要拆分的ip段：').split('.')[:3]) + '.'
 ip = '.'.join(['{:0>3d}'.format(int(i)) for i in input('输入要拆分的ip段：').split('.')[:3]]) + '.'
 country = input('输入国家：')
 province = input('输入省份：')
@@ -7,7 +6,7 @@ isp = input('输入运营商：')
 col = input('运营商所在列? 4 or 5 :')
 label = input('输入最后一列备注内容：')
 n = input('按几拆分? 1 or 2 or 4 or 8 or 16 or ... ')
-f = open('.\\text_C.txt', 'w', encoding='utf-8')
+f = open('.\\text_c.txt', 'w', encoding='utf-8')
 
 n1 = 0
 n2 = n1 + int(n) - 1
@@ -25,4 +24,4 @@ while n2 <= 255:
     n2 = n1 + int(n) - 1
 
 f.close()
-print('\n完成\n执行结果在 text_C.txt 中\n')
+print('\n完成\n执行结果在 text_c.txt 中\n')
