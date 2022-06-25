@@ -10,7 +10,6 @@ def b(f, s):
     return True if f_list[:flag] == s_list[:flag] else False
 
 def main():
-	start = time.time()
 	fr = open('text_C.txt', mode="r", encoding='utf-8')
 	fw = open("result.txt", mode="w", encoding='utf-8')
 	d1 = fr.readline()
@@ -25,8 +24,7 @@ def main():
 		d1 = '\t'.join(d2_list)
 	fr.close()
 	fw.close()
-	end = time.time()
-	print(f"\n用时{end-start:.2f}s\n执行结果在 result.txt 中\n")
+	print(f"\n执行结果在 result.txt 中\n")
 	
 if __name__ == '__main__':
 	main()
