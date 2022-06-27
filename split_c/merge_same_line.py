@@ -10,7 +10,7 @@ def b(f, s):
     return True if f_list[:flag] == s_list[:flag] else False
 
 def main():
-	fr = open('text_C.txt', mode="r", encoding='utf-8')
+	fr = open('text_c.txt', mode="r", encoding='utf-8')
 	fw = open("result.txt", mode="w", encoding='utf-8')
 	d1 = fr.readline()
 	while d1:
