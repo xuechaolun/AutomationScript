@@ -4,8 +4,8 @@ import openpyxl
 
 ip2long = lambda x: sum([256 ** j * int(i) for j, i in enumerate(x.split('.')[::-1])])
 
-ISP = input("input isp domain:")
 # ISP = 'telefonica'
+ISP = input("input isp domain:").strip()
 FILE = 'temp.txt'
 COUNTRY_TOTAL = 0
 STATE_TOTAL = 0
@@ -90,6 +90,5 @@ def clear_file():
 get_isp_file(ISP)
 countries()
 count()
-# save()
 save_to_excel()
 clear_file()
