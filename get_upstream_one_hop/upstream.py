@@ -110,7 +110,7 @@ if __name__ == '__main__':
     ISP = input('input domain:').strip()
     COUNTRY = input('input country:').strip()
     if not os.path.exists(ISP + '.txt'):
-        print('获取->' + COUNTRY + ' ' + ISP + '<-只标注到国家的c段')
+        print('获取 ' + COUNTRY + ' ' + ISP + ' 只标注到国家的c段ip')
         get_em_file(ISP, COUNTRY)
     else:
         print('删除 '+ISP + '.txt 中'+'已扫描过的 ip')
