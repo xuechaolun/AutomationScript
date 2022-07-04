@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 
@@ -34,10 +36,15 @@ class UpDownLessC:
             for ip in self.ips:
                 fw.write(ip + '\n')
 
+    def save_row_json_data(self):
+        with open('updown.json', 'w', encoding='utf-8') as fw:
+            json.dump(self.response.json(), fw, ensure_ascii=False, indent=4)
+
     def run(self):
         self.get_downstream_hop()
         self.get_transfered_destip_unreach()
         self.save_file()
+        self.save_row_json_data()
 
     def __del__(self):
         self.response.close()
@@ -46,4 +53,4 @@ class UpDownLessC:
 if __name__ == '__main__':
     # 参数1：路由
     # 参数2：需要保存ip的地理位置
-    UpDownLessC('8.242.29.94', '巴西/巴拉那州/*').run()
+    UpDownLessC('187.72.46.194', '巴西/米纳斯吉拉斯州/伊塔乌迪米纳斯').run()
