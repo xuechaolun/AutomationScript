@@ -1,2 +1,0 @@
-python upstream.py
-pause
