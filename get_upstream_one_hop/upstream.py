@@ -37,7 +37,7 @@ class UpStream:
     def save(self, data):
         with open(self.isp + '_upstream.txt', 'a', encoding='utf-8') as fw:
             with open(self.isp + '_log.txt', 'a', encoding='utf-8') as fw_log:
-                now_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                now_time = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
                 fw_log.write(now_time + ' ' + self.ip + ' -> ' + f'status_code = {self.response.status_code}' + '\n')
                 if len(data) != 0:
                     fw.write(self.ip + '\t=>\n')
@@ -100,7 +100,11 @@ def delete_scanned_lines(isp):
     with open(isp + '.txt', 'w', encoding='utf-8') as fw:
         for i, ddd in enumerate(data):
             if ddd.strip() == ip:
-                fw.writelines(data[i:])
+                try:
+                    fw.writelines(data[i+1:])
+                except:
+                    print(f"{isp}.txt 中的ip已经扫描完毕")
+                    exit(1)
                 break
 
 
@@ -109,16 +113,21 @@ if __name__ == '__main__':
     # COUNTRY = '巴西'
     ISP = input('input domain:').strip()
     COUNTRY = input('input country:').strip()
+    if ISP == '' or COUNTRY == '':
+        print('domain or country is empty!\nplease input domain and country.')
+        os.system('pause')
+        exit(1)
     if not os.path.exists(ISP + '.txt'):
-        print('获取 ' + COUNTRY + ' ' + ISP + ' 只标注到国家的c段ip')
+        print('\n获取 ' + COUNTRY + ' ' + ISP + ' 只标注到国家的c段ip\n')
         get_em_file(ISP, COUNTRY)
     else:
-        print('删除 '+ISP + '.txt 中'+'已扫描过的 ip')
+        print('\n删除 '+ISP + '.txt 中'+'已扫描过的 ip\n')
         delete_scanned_lines(ISP)
     for d in open(ISP + '.txt', 'r', encoding='utf-8'):
         try:
             UpStream(d, ISP).run()
-            time.sleep(random.uniform(5, 10))
+            time.sleep(random.uniform(5,6))
         except:
             with open(ISP+'_error.txt', 'a', encoding='utf-8') as fw_error:
                 fw_error.write(d)
+    os.system('pause')
