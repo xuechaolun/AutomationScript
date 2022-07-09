@@ -7,9 +7,10 @@ import requests
 
 
 class UpStream:
-    def __init__(self, ip, isp):
+    def __init__(self, ip, isp, country):
         self.ip = ip.strip('\n')
         self.isp = isp
+        self.country = country
         self.url = 'https://status.ipip.net/updown.php'
         self.headers = {
             'Origin': 'https://status.ipip.net',
@@ -35,8 +36,8 @@ class UpStream:
         return data1
 
     def save(self, data):
-        with open(self.isp + '_upstream.txt', 'a', encoding='utf-8') as fw:
-            with open(self.isp + '_log.txt', 'a', encoding='utf-8') as fw_log:
+        with open(f'{self.isp}_{self.country}_upstream.txt', 'a', encoding='utf-8') as fw:
+            with open(f'{self.isp}_{self.country}_log.txt', 'a', encoding='utf-8') as fw_log:
                 now_time = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
                 fw_log.write(now_time + ' ' + self.ip + ' -> ' + f'status_code = {self.response.status_code}' + '\n')
                 if len(data) != 0:
@@ -60,7 +61,7 @@ long2ip = lambda x: '.'.join(['{:0>3d}'.format(x // (256 ** i) % 256) for i in r
 def get_em_file(isp, country):
     mydata_path = r'C:\TianTexin\framework\library\ip\mydata.edit.txt'
     with open(mydata_path, 'r', encoding='utf-8') as fr:
-        with open(isp + '.txt', 'w', encoding='utf-8') as fw:
+        with open(f'{isp}_{country}.txt', 'w', encoding='utf-8') as fw:
             for dd in fr:
                 d_list = dd.split('\t')
                 if len(d_list) != 9:
@@ -92,18 +93,18 @@ def get_last_line(file_name):
             offset *= 2
 
 
-def delete_scanned_lines(isp):
+def delete_scanned_lines(isp, country):
     last_line = get_last_line(isp + '_log.txt')
     ip = last_line.split(' ')[2]
-    with open(isp + '.txt', 'r', encoding='utf-8') as fr:
+    with open(f'{isp}_{country}.txt', 'r', encoding='utf-8') as fr:
         data = fr.readlines()
-    with open(isp + '.txt', 'w', encoding='utf-8') as fw:
+    with open(f'{isp}_{country}.txt', 'w', encoding='utf-8') as fw:
         for i, ddd in enumerate(data):
             if ddd.strip() == ip:
                 try:
                     fw.writelines(data[i+1:])
                 except:
-                    print(f"{isp}.txt 中的ip已经扫描完毕")
+                    print(f"{isp}_{country}.txt 中的 ip 已经扫描完毕")
                     exit(1)
                 break
 
@@ -117,17 +118,17 @@ if __name__ == '__main__':
         print('domain or country is empty!\nplease input domain and country.')
         os.system('pause')
         exit(1)
-    if not os.path.exists(ISP + '.txt'):
-        print('\n获取 ' + COUNTRY + ' ' + ISP + ' 只标注到国家的c段ip\n')
+    if not os.path.exists(f'{ISP}_{COUNTRY}.txt'):
+        print('\n获取 ' + COUNTRY + ' ' + ISP + ' 只标注到国家的 c 段 ip\n')
         get_em_file(ISP, COUNTRY)
     else:
-        print('\n删除 '+ISP + '.txt 中'+'已扫描过的 ip\n')
-        delete_scanned_lines(ISP)
-    for d in open(ISP + '.txt', 'r', encoding='utf-8'):
+        print(f'\n删除{ISP}_{COUNTRY}.txt 中已扫描过的 ip\n')
+        delete_scanned_lines(ISP, COUNTRY)
+    for d in open(f'{ISP}_{COUNTRY}.txt', 'r', encoding='utf-8'):
         try:
-            UpStream(d, ISP).run()
+            UpStream(d, ISP, COUNTRY).run()
             time.sleep(random.uniform(5,6))
         except:
-            with open(ISP+'_error.txt', 'a', encoding='utf-8') as fw_error:
+            with open(f'{ISP}_{COUNTRY}_error.txt', 'a', encoding='utf-8') as fw_error:
                 fw_error.write(d)
     os.system('pause')
