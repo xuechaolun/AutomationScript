@@ -18,6 +18,7 @@ CONTENT = list()
 with open('text_c.txt', 'r', encoding='utf-8') as fr:
     for line in fr.readlines():
         line_list = [i for i in line.split(' ') if i != '']
+        line_list[0] = '.'.join([f'{int(li):0>3d}'for li in line_list[0].split('.')])
         if '\n' not in line_list[-1]:
             line_list[-1] += '\n'
         if line_list[4] == '骨干网' and line_list[6] == '骨干网':
