@@ -1,2 +1,0 @@
-python updown.py
-pause
