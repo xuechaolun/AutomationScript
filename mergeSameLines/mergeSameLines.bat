@@ -1,3 +1,0 @@
-python mergeSameLines.py
-
-pause
