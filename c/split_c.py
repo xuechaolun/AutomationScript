@@ -24,4 +24,3 @@ while n2 <= 255:
     n2 = n1 + int(n) - 1
 
 f.close()
-print('\n完成\n执行结果在 text_c.txt 中\n')
