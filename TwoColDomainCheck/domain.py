@@ -76,7 +76,7 @@ with open(path6, 'r', encoding='utf-8') as fr:
             five_dict[d_list[5]][d_list[1]] += 1
 
 
-with open('result.txt', 'w', encoding='utf-8') as fw:
+with open('同时存在于两列的域名.txt', 'w', encoding='utf-8') as fw:
     for sd in same_domain:
         fw.write(sd)
         fw.write('\n\n第4列\n')
