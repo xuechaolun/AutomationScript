@@ -30,6 +30,7 @@ def calc(data_list, flag):  # 第二个参数只能是1或者2！(“1”指的�
 
 
 if __name__ == '__main__':
+    rs = input('统计 rs1 文件就输入 1，统计 rs2 文件就输入 2：')
     with open('rs.txt', 'r', encoding='utf-8') as fr:
         with open('result.txt', 'w', encoding='utf-8') as fw:
-            fw.writelines(sorted(calc(fr.readlines(), 1), key=lambda x: int(x.split('\t')[1]), reverse=True))
+            fw.writelines(sorted(calc(fr.readlines(), rs), key=lambda x: int(x.split('\t')[1]), reverse=True))
