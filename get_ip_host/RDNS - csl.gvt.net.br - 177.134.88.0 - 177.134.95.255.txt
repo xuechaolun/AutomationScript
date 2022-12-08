@@ -1,0 +1,8 @@
+177.134.88.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.89.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.90.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-11 06:10:30
+177.134.91.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.92.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.93.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.94.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
+177.134.95.1,gvt-b-se07.csl.gvt.net.br,巴西 托坎廷斯州 帕尔马斯  telefonica.com  ,2022-10-08 08:08:43
