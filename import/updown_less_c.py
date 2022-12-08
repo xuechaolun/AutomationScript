@@ -4,11 +4,12 @@ import requests
 
 
 class UpDownLessC:
-    def __init__(self, route, location):
+    def __init__(self, route, hop,  *locations):
         self.route = route
-        self.location = location
+        self.hop = hop
+        self.locations = [loc.strip() for loc in locations]
         self.ips = list()
-        self.url = f"https://status.ipip.net/updown.php?ip={self.route}&level=4&a=apiv2"
+        self.url = f"https://status.ipip.net/updown.php?ip={self.route}&level={self.hop}&a=apiv2"
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0',
         }
@@ -21,19 +22,21 @@ class UpDownLessC:
             for j in i.values():
                 for k in j:
                     for l in k:
-                        if l == self.location:
+                        if l in self.locations:
                             self.ips.extend(k[l])
 
     def get_transfered_destip_unreach(self):
         data_json = self.response.json()
         transfered_destip_unreach = data_json['TRANSFERED_DESTIP_UNREACH']
         for i in transfered_destip_unreach:
-            if i == self.location:
+            if i in self.locations:
                 self.ips.extend(transfered_destip_unreach[i])
+
+    ip2long = lambda x: sum([256 ** j * int(i) for j, i in enumerate(x.split('.')[::-1])])
 
     def save_file(self):
         with open('data.txt', 'w', encoding='utf-8') as fw:
-            for ip in self.ips:
+            for ip in sorted(self.ips, key=lambda x:UpDownLessC.ip2long(x), reverse=False):
                 fw.write(ip + '\n')
 
     def save_row_json_data(self):
@@ -44,7 +47,7 @@ class UpDownLessC:
         self.get_downstream_hop()
         self.get_transfered_destip_unreach()
         self.save_file()
-        self.save_row_json_data()
+        # self.save_row_json_data()
 
     def __del__(self):
         self.response.close()
@@ -52,5 +55,6 @@ class UpDownLessC:
 
 if __name__ == '__main__':
     # 参数1：路由
-    # 参数2：需要保存ip的地理位置
-    UpDownLessC('187.72.46.194', '巴西/米纳斯吉拉斯州/伊塔乌迪米纳斯').run()
+    # 参数2：跳数
+    # 参数3+：需要保存ip的地理位置
+    UpDownLessC('152.255.194.159', '4', '巴西/巴西/*').run()
