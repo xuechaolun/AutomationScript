@@ -76,7 +76,7 @@ with open(path6, 'r', encoding='utf-8') as fr:
             five_dict[d_list[5]][d_list[1]] += 1
 
 
-with open('同时存在于两列的域名.txt', 'w', encoding='utf-8') as fw:
+with open('两列域名.txt', 'w', encoding='utf-8') as fw:
     for sd in same_domain:
         fw.write(sd)
         fw.write('\n\n第4列\n')
@@ -86,6 +86,7 @@ with open('同时存在于两列的域名.txt', 'w', encoding='utf-8') as fw:
         for k, v in five_dict[sd].items():
             fw.write(str(k)+' '+str(v)+'\n')
         fw.write('\n--------------------\n')
+    fw.write(f'\n{len(same_domain)} 个 domain 有问题\n')
 
 
 end = time.time()
